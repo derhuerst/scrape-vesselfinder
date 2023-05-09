@@ -1,0 +1,37 @@
+{
+	"name": "scrape-vesselfinder",
+	"description": "Scrape vessel/ship positions from vesselfinder.com.",
+	"version": "0.1.0",
+	"type": "module",
+	"main": "index.js",
+	"files": [
+		"index.js",
+		"example.js"
+	],
+	"keywords": [
+		"vessel",
+		"ship",
+		"maritime",
+		"position",
+		"realtime",
+		"ais"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/scrape-vesselfinder",
+	"repository": "derhuerst/scrape-vesselfinder",
+	"bugs": "https://github.com/derhuerst/scrape-vesselfinder/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=18"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"eslint": "^8.0.0"
+	},
+	"scripts": {
+		"test": "env NODE_ENV=dev node --test",
+		"lint": "eslint .",
+		"prepublishOnly": "npm run lint && npm test"
+	}
+}
