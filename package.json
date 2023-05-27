@@ -6,7 +6,8 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
-		"example.js"
+		"example.js",
+		"lib"
 	],
 	"keywords": [
 		"vessel",
@@ -25,6 +26,7 @@
 		"node": ">=18"
 	},
 	"dependencies": {
+		"cheerio": "^1.0.0-rc.12",
 		"cross-fetch": "^3.1.6",
 		"debug": "^4.3.4"
 	},
