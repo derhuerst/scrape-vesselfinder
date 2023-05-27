@@ -11,12 +11,14 @@ const pkg = require('./package.json')
 
 const VESSEL_BASE_URL = `\
 https://www.vesselfinder.com/vessels/details/`
+const VESSEL_WEATHER_BASE_URL = `\
+https://www.vesselfinder.com/api/pub/weather/at/`
 
 const DEFAULT_USER_AGENT = `${pkg.name} v${pkg.version}`
 
 const debug = createDebug('scrape-vesselfinder')
 
-const _fetch = async (url, accept, userAgent) => {
+const _fetch = async (url, accept, userAgent, bodyParseMethod) => {
 	const res = await fetch(url, {
 		headers: {
 			'accept': accept,
@@ -29,7 +31,7 @@ const _fetch = async (url, accept, userAgent) => {
 
 		let body = null
 		try {
-			body = await res.text()
+			body = await res[bodyParseMethod]()
 		} catch (err) {
 			//
 		}
@@ -41,7 +43,7 @@ const _fetch = async (url, accept, userAgent) => {
 		throw err
 	}
 
-	const body = await res.text()
+	const body = await res[bodyParseMethod]()
 	return {res, body}
 }
 
@@ -147,7 +149,41 @@ const scrapeVesselFromVesselfinder = async (mmsi, opt = {}) => {
 	return props
 }
 
+const scrapeVesselWeatherFromVesselfinder = async (mmsi, opt = {}) => {
+	if ('string' !== typeof mmsi) {
+		throw new TypeError('mmsi must be a string')
+	}
+	if (!mmsi) {
+		throw new TypeError('mmsi must not be empty')
+	}
+	const {
+		userAgent,
+	} = {
+		userAgent: null,
+		...opt,
+	}
+
+	const target = new URL(VESSEL_WEATHER_BASE_URL)
+	target.pathname += mmsi
+
+	const {body} = await _fetch(
+		target.href,
+		'text/html,application/xhtml+xml;q=0.9',
+		userAgent,
+		'json',
+	)
+
+	return {
+		windSpeed: body.wsp || null, // in m/s
+		windDirection: body.wdir || null, // in degrees
+		windTemperature: body.temp || null, // in ℃
+		// todo: htsgw
+		// todo: dirpw
+	}
+}
+
 export {
 	scrapeVesselFromVesselfinder as scrapeVessel,
+	scrapeVesselWeatherFromVesselfinder as scrapeVesselWeather,
 	_parseVesselPage,
 }

@@ -47,6 +47,24 @@ await scrapeVessel(costaFavolosaIMO) // pass in IMO or MMSI
 }
 ```
 
+### `scrapeVesselWeather(mmsi)`
+
+```js
+import {scrapeVesselWeather} from 'scrape-vesselfinder'
+
+const costaFavolosaMMSI = '247311100'
+
+await scrapeVesselWeather(costaFavolosaMMSI) // pass in MMSI
+```
+
+```js
+{
+	windSpeed: 3.6, // m/s
+	windDirection: 30, // degrees
+	windTemperature: 13, // ℃
+}
+```
+
 
 ## Contributing
 

@@ -8,6 +8,7 @@ import {
 } from 'node:assert'
 import {
 	scrapeVessel,
+	scrapeVesselWeather,
 	_parseVesselPage,
 } from '../index.js'
 
@@ -27,6 +28,9 @@ const costaFavolosaHtml = readFileSync(
 	fileURLToPath(new URL('./costa-favolosa-2023-05-27T15%3A45%3A45%2B02%3A00.html', import.meta.url)),
 	{encoding: 'utf8'},
 )
+
+const costaFavolosaIMO = '9479852'
+const costaFavolosaMMSI = '247311100'
 
 test('_parseVesselPage works with BVG\'s "Wannsee"', async (t) => {
 	const vessel = await _parseVesselPage(bvgWannseeHtml)
@@ -158,4 +162,18 @@ test('scrapeVessel works with "Costa Favolo"', async (t) => {
 		ok(vessel.navigationStatus, 'vessel.navigationStatus must not be empty')
 	}
 	// todo: vessel.predictedETA
+})
+
+test('scrapeVesselWeather works with "Costa Favolo"', async (t) => {
+	const weather = await scrapeVesselWeather(costaFavolosaMMSI)
+	
+	if (weather.windSpeed !== null) {
+		ok(Number.isFinite(weather.windSpeed))
+	}
+	if (weather.windDirection !== null) {
+		ok(Number.isFinite(weather.windDirection))
+	}
+	if (weather.windTemperature !== null) {
+		ok(Number.isFinite(weather.windTemperature))
+	}
 })
