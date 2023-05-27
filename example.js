@@ -1,3 +1,7 @@
-import {todo} from './index.js'
+import {
+	scrapeVessel,
+} from './index.js'
 
-// todo
+const costaFavolosaIMO = '9479852'
+
+console.log('Costa Favolo:', await scrapeVessel(costaFavolosaIMO))

@@ -18,8 +18,33 @@ npm install scrape-vesselfinder
 
 ## Usage
 
+### `scrapeVessel(imoOrMmsi)`
+
 ```js
-// todo
+import {scrapeVessel} from 'scrape-vesselfinder'
+
+const costaFavolosaIMO = '9479852'
+
+await scrapeVessel(costaFavolosaIMO) // pass in IMO or MMSI
+```
+
+```js
+{
+	beam: 44, // m
+	callsign: 'ICPK',
+	courseOverGround: 295.1, // degrees
+	currentDraught: 8.3, // m
+	flag: 'Italy',
+	imo: '9479852',
+	latitude: 53.83251,
+	length: 290, // m
+	longitude: 8.07988,
+	mmsi: '247311100',
+	navigationStatus: 'under way',
+	positionReceived: '0 min ago',
+	predictedETA: null,
+	speedOverGround: 15.9, // knots
+}
 ```
 
 
